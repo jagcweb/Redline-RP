@@ -17,9 +17,14 @@
         @if(\Auth::user() && \Auth::user()->getRoleNames()[0] == "mod" ||
         \Auth::user() && \Auth::user()->getRoleNames()[0] == "admin")
       <div class="card card-forum @if($i==0) @else mt-2 @endif">
-        <div class="card-header card-header-forum">
-        <h4 style="margin:0px;">
-        <i class="fas fa-lock mr-2"></i>{{ucfirst($tema->nombre)}}</h4>
+        <div class="card-header card-header-forum" style="width:100%; display:flex; flex-direction:row; justify-content:space-between;">
+        @if(\Auth::user() && \Auth::user()->getRoleNames()[0] == "mod" || \Auth::user() && \Auth::user()->getRoleNames()[0] == "admin")
+        <h4 style="margin:0px;"><i class="fas fa-lock mr-2"></i>{{ucfirst($tema->nombre)}}</h4><a href="#" style="color:#fff;" data-toggle="modal" data-target="#editarTema-{{$tema->id}}"><i class="fas fa-pen ml-2" style="font-size: 1.5rem;"></i></a>
+        @include('partials.modals.edit_tema')
+        @else
+        <h4 style="margin:0px;">{{ucfirst($tema->nombre)}}</h4>
+        @endif
+        
         </div>
           @foreach($tema->subtemas as $subtema)
         <div class="card-body card-body-forum">
@@ -31,9 +36,13 @@
       @endif
     @else
     <div class="card card-forum @if($i==0) @else mt-2 @endif">
-        <div class="card-header card-header-forum">
-        <h4 style="margin:0px;">
-        <i class="fas fa-lock-open mr-2"></i>{{ucfirst($tema->nombre)}}</h4>
+        <div class="card-header card-header-forum" style="width:100%; display:flex; flex-direction:row; justify-content:space-between;">
+        @if(\Auth::user() && \Auth::user()->getRoleNames()[0] == "mod" || \Auth::user() && \Auth::user()->getRoleNames()[0] == "admin")
+        <h4 style="margin:0px;"><i class="fas fa-lock-open mr-2"></i>{{ucfirst($tema->nombre)}}</h4><a href="#" style="color:#fff;" data-toggle="modal" data-target="#editarTema-{{$tema->id}}"><i class="fas fa-pen ml-2" style="font-size: 1.5rem;"></i></a>
+        @include('partials.modals.edit_tema')
+        @else
+        <h4 style="margin:0px;">{{ucfirst($tema->nombre)}}</h4>
+        @endif
         </div>
           @foreach($tema->subtemas as $subtema)
         <div class="card-body card-body-forum">

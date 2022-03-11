@@ -7,6 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>RedlineRP - Foro</title>
 
+    <link rel="shortcut icon" type="image/png" href="{{url('assets')}}/images/redline_logo.png">
+    <link rel="shortcut icon" sizes="192x192" href="{{url('assets')}}/images/redline_logo.png">
+
     <link rel="stylesheet" type="text/css" href="{{url('assets')}}/css/styles.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
@@ -21,6 +24,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
 </head>
+
+<!-- Cookie Consent by https://www.FreePrivacyPolicy.com -->
+<script type="text/javascript" src="//www.freeprivacypolicy.com/public/cookie-consent/4.0.0/cookie-consent.js" charset="UTF-8"></script>
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({"notice_banner_type":"interstitial","consent_type":"implied","palette":"dark","language":"es","page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],"notice_banner_reject_button_hide":false,"preferences_center_close_button_hide":false,"page_refresh_confirmation_buttons":false,"website_name":"redlinerp.es","open_preferences_center_selector":"#open_preferences_center"});
+});
+</script>
+
+<noscript>Cookie Consent by <a href="https://www.freeprivacypolicy.com/" rel="nofollow noopener">Free Privacy Policy website</a></noscript>
+<!-- End Cookie Consent -->
+
 <body style="background: #0d1219;">
 
 
@@ -40,7 +55,7 @@ border-bottom:1px solid #b2b2b2; height:200px;">
     <li class="dropdown notification-list topbar-dropdown" style="list-style:none;">
             <a class="navbar-brand dropdown-toggle waves-effect waves-light" style=" color:#fff;" data-toggle="dropdown" href="#"
                 role="button" aria-haspopup="false" aria-expanded="false">
-                <i class="fas fa-bell noti-icon text-dark"></i>
+                <i class="fas fa-bell noti-icon"></i>
                 @if(count($notificaciones) >9)
                 <span class="badge badge-danger rounded-circle noti-icon-badge font-12"><strong>9+</strong></span>
                 @else

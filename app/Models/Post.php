@@ -22,4 +22,8 @@ class Post extends Model
     public function editedby(){
         return $this->belongsTo('App\Models\User', 'edited_by', 'id');
     }
+
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
 }

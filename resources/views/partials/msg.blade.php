@@ -1,4 +1,4 @@
-<div style="width:75%; margin:0px auto;" class="mt-3">
+<div style="margin:0px auto;" class="mt-3">
     @if(Session::has('error'))
         <div class="alert alert-danger">
             {{ Session::get('error') }}

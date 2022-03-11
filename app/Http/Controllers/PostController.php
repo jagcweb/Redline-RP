@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Comment;
+use App\Models\Subtema;
+
 
 class PostController extends Controller{
 
@@ -15,6 +17,7 @@ class PostController extends Controller{
             'desc' => ['required'],
             'block' => ['nullable', 'alpha_num'],
             'own_reply' => ['nullable', 'alpha_num'],
+            'hidden' => ['nullable', 'alpha_num'],
             ]
         );
 
@@ -23,6 +26,7 @@ class PostController extends Controller{
         $desc = $request->get('desc');
         $block = $request->get('block');
         $own_reply = $request->get('own_reply');
+        $hidden = $request->get('hidden');
 
         $post = new Post();
 
@@ -34,6 +38,7 @@ class PostController extends Controller{
             $post->descr = $desc;
             $post->bloqueado = $block;
             $post->respuesta_propia = $own_reply;
+            $post->oculto = $hidden;
             $post->save();
 
             return back()->with('exito', 'Post creado.');
@@ -48,16 +53,15 @@ class PostController extends Controller{
 
         $post = Post::find($id);
 
-        if(!\Auth::user() && $post->subtema->post_propio || \Auth::user()->id != $post->user_id && $post->subtema->post_propio && \Auth::user()->getRoleNames()[0] != "admin" && \Auth::user()->getRoleNames()[0] != "mod"){
-            return back();
-        }
-
         $comments = Comment::where('post_id', $post->id)->orderBy('id', 'asc')->get();
+
+        $subtemas = Subtema::orderBy('nombre', 'asc')->get();
 
 
         return view('post.home', [
             'post' => $post,
-            'comments' => $comments
+            'comments' => $comments,
+            'subtemas' => $subtemas,
         ]);
 
 
@@ -72,17 +76,24 @@ class PostController extends Controller{
         $request->validate([
             'titulo' => ['required', 'string'],
             'desc' => ['required'],
+            'block' => ['nullable', 'alpha_num'],
+            'own_reply' => ['nullable', 'alpha_num'],
+            'hidden' => ['nullable', 'alpha_num'],
             ]
         );
 
         $titulo = $request->get('titulo');
         $desc = $request->get('desc');
+        $block = $request->get('block');
+        $own_reply = $request->get('own_reply');
+        $hidden = $request->get('hidden');
 
         if($post){
             $post->titulo = $titulo;
             $post->descr = $desc;
-            $post->edited_by = \Auth::user()->id;
-            $post->updated_at = \Carbon\Carbon::now();
+            $post->bloqueado = $block;
+            $post->respuesta_propia = $own_reply;
+            $post->oculto = $hidden;
             $post->update();
 
             return back()->with('exito', 'Post actualizado.');
@@ -103,10 +114,14 @@ class PostController extends Controller{
         $post = Post::find($id);
 
         if($post){
-            $post->comments->delete();
-            //$post->delete();
+            $tema = $post->subtema->tema->nombre;
+            $subtema = $post->subtema->nombre;
+            if(count($post->comments)>0){
+                Comment::where('post_id', $post->id)->delete();
+            }
+            $post->delete();
 
-            return back()->with('exito', 'Post borrado.');
+            return redirect()->route('subtema.index', ['tema' => $tema, 'subtema' => $subtema])->with('exito', 'Post borrado.');
         }
 
         return back()->with('error', 'Error al borrar el post.');
@@ -132,6 +147,31 @@ class PostController extends Controller{
         }
 
         return back()->with('error', 'Error al cerrar el post.');
+    }
+
+    public function move(Request $request){
+        $request->validate([
+            'subtema_id' => ['required', 'alpha_num'],
+            'post_id' => ['required', 'alpha_num']
+            ]
+        );
+
+        $subtema_id = $request->get('subtema_id');
+        $id = $request->get('post_id');
+
+        $post = Post::find($id);
+
+        if($post){
+
+            $post->subtema_id = $subtema_id;
+            $post->update();
+
+            return redirect()->route('subtema.index', ['tema' => $post->subtema->tema->nombre, 'subtema' => $post->subtema->nombre  ])->with('exito', 'Post movido. Se te ha redireccionado al subtema que ahora contiene este post.');
+        }
+
+        return back()->with('error', 'Error al mover el post.');
+
+
     }
 
 }

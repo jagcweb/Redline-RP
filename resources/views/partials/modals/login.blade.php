@@ -10,7 +10,7 @@
       </div>
       <div class="modal-body">
 
-        {{-- <a href="{{route('login')}}">Ingresar con Discord</a> --}}
+        <a href="{{route('login')}}">Ingresar con Discord</a>
 
 
         <form method="POST" class="form-login" action="{{route('login.normal')}}">

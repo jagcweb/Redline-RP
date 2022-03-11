@@ -43,6 +43,33 @@ class ForoController extends Controller{
         return back()->with('error', 'Error al crear el Tema');
     }
 
+    public function update($id, Request $request)
+    {
+        $id = \Crypt::decryptString($id);
+
+        $request->validate([
+            'nombre' => ['required', 'string'],
+            'oculto' => ['nullable', 'alpha_num'],
+            ]
+        );
+
+        $nombre = $request->get('nombre');
+        $oculto = $request->get('oculto');
+        
+        $tema = Tema::find($id);
+
+        if($tema){
+            $tema->nombre = $nombre;
+            $tema->oculto = $oculto;
+            $tema->updated_at = \Carbon\Carbon::now();
+            $tema->save();
+
+            return back()->with('exito', 'Tema actualizado');
+        }
+
+        return back()->with('error', 'Error al crear el Tema');
+    }
+
     public function getImage($filename) {
         $file = \Storage::disk('avatar')->get($filename);
 

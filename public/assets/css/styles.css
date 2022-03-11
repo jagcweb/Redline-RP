@@ -50,6 +50,10 @@
     color:#656565;
 }
 
+.dropdown-toggle::after{
+    content: none!important;
+}
+
 #instagram:hover{
     color:transparent;
     background: -webkit-radial-gradient(30% 107%, circle, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);

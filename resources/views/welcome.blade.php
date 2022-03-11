@@ -9,6 +9,8 @@
     <meta name="description" content="Página web oficial del servidor de roleplay de habla hispana RedlineRP">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RedlineRP</title>
+    <link rel="shortcut icon" type="image/png" href="{{url('assets')}}/images/redline_logo.png">
+    <link rel="shortcut icon" sizes="192x192" href="{{url('assets')}}/images/redline_logo.png">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="{{'assets/css/styles.css'}}">

@@ -1,16 +1,24 @@
 <script src="https://cdn.tiny.cloud/1/lwe1t2tv4oggrwpolep8lzhzppmk8rqknh8tvf2e3suyecx5/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
+tinymce.remove();
 var demoBaseConfig = {
-  selector: 'textarea#desc',
+  selector: '#desc',
+  setup: function(editor){
+        // Let the editor save every change to the textarea
+        editor.on('change', function(){
+            tinymce.triggerSave();
+        });
+    },
   branding: false,
   elementpath: false,
   language: 'es',
+
   height: 500,
   resize: false,
   autosave_ask_before_unload: false,
   powerpaste_allow_local_images: true,
   plugins: [
-    'autolink codesample fullscreen image imagetools',
+    'autolink codesample fullscreen image',
     ' lists link media noneditable powerpaste preview',
     ' searchreplace table template tinymcespellchecker visualblocks wordcount'
   ],
@@ -50,10 +58,18 @@ var demoBaseConfig = {
   },
   content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
 };
-
 tinymce.init(demoBaseConfig);
+
+$( document ).ready(function() {
+  $(document).on('focusin', function(e) {
+    if ($(e.target).closest(".tox-tinymce, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root").length) {
+        e.stopImmediatePropagation();
+    }
+  });
+});
+
 </script>
-<div class="modal fade" id="crearPost" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade"  id="crearPost" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -87,6 +103,11 @@ tinymce.init(demoBaseConfig);
           <div class="form-group">
               <label for="own_reply" style="color:#fff;">Respuesta propia (solo los mods y admins podrán ver todas las respuestas. Los usuarios únicamente podrán ver la suya)</label>
               <input type="checkbox" name="own_reply"  value="1" id="own_reply" class="form-control"/>
+          </div>
+
+          <div class="form-group">
+              <label for="own_reply" style="color:#fff;">Ocultar post (solo los mods y admins podrán ver el post)</label>
+              <input type="checkbox" name="hidden"  value="1" id="hidden" class="form-control" />
           </div>
           @endif
 
